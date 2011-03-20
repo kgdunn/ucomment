@@ -15,11 +15,6 @@ if conf.repo_DVCS_type == 'hg':
 
 conf.TESTING = True
 
-try:
-    import wingdbstub
-except ImportError:
-    pass
-
 # A named tuple behaves exactly link a Django object for the purpose of
 # these tests; Rather use StringIO objects instead of actual files.
 CommentRef = collections.namedtuple('CommentReference',

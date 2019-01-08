@@ -10,11 +10,11 @@
 // Do you use the MathJax extension to render math with Sphinx?  If so, set
 // this variable to ``true``; if you use Sphinx's pngmath extension, or have no
 // mathematics in your documentation, please set it to ``false``.
-var USE_MATHJAX = false;
+var USE_MATHJAX = true;
 
 // The same value as the ``url_views_prefix`` values in the Django application's
 // "conf/settings.py" file.
-var URL_VIEWS_PREFIX = 'document/';
+var URL_VIEWS_PREFIX = 'tutorials/';
 
 // Turn off the expand/show accordion effect for the Table of Contents
 var USE_TOC_ACCORDION = true;

@@ -70,7 +70,7 @@ STOP_WORDS = ['I', 'a', 'an', 'are', 'as', 'at', 'be', 'by', 'com', 'for',
 # Code begins from here
 # ---------------------
 log_file = logging.getLogger('ucomment')
-log_file.setLevel(logging.INFO)
+log_file.setLevel(logging.DEBUG)
 fh = logging.handlers.RotatingFileHandler(conf.log_filename,
                                           maxBytes=5000000,
                                           backupCount=10)
@@ -182,6 +182,7 @@ def get_site_url(request, add_path=True, add_views_prefix=False):
     'https://site.example.com/document/_submit-comment/'
     """
     # TODO(KGD): Consider using ``request.build_absolute_uri()`` instead
+    log_file.debug('GET_HOST = %s; ABSOLUTE_URL = %s' % (request.get_host(), request.build_absolute_uri()))
     out = 'http://'
     if request.is_secure():
         out = 'https://'
@@ -200,16 +201,23 @@ def get_IP_address(request):
     Returns the visitor's IP address as a string.
     """
     # Catchs the case when the user is on a proxy
-    try:
-        ip = request.META['HTTP_X_FORWARDED_FOR']
-    except KeyError:
-        ip = ''
-    else:
-        # HTTP_X_FORWARDED_FOR is a comma-separated list; take first IP:
-        ip = ip.split(',')[0]
+    #try:
+    #    ip = request.META['HTTP_X_FORWARDED_FOR']
+    #except KeyError:
+    #    ip = ''
+    #else:
+    #    # HTTP_X_FORWARDED_FOR is a comma-separated list; take first IP:
+    #    ip = ip.split(',')[0]
 
-    if ip == '' or ip.lower() == 'unkown':
-        ip = request.META['REMOTE_ADDR']      # User is not on a proxy
+    #if ip == '' or ip.lower() == 'unkown':
+    #    ip = request.META['REMOTE_ADDR']      # User is not on a proxy
+
+    # Webfaction proxying: the REMOTE_ADDR has been set to carry the original 
+    # user's IP number
+    
+    ip = request.META.get('HTTP_REMOTE_ADDR', '')
+    if ip == '':
+        ip = request.META.get('HTTP_HTTP_X_FORWARDED_FOR', '98.76.54.32')
     return ip
 
 # Comment preview and submission functions
@@ -376,6 +384,7 @@ def convert_raw_RST(raw_RST):
                                because Sphinx converts is back to a single slash
     """
     out = raw_RST.replace('\\', '\\\\')
+    #out = raw_RST
     # You can perform any other filtering here, if required.
     return out
 
@@ -1811,7 +1820,7 @@ def call_sphinx_to_publish():
     # TODO(KGD): make this setting a choice in the web before publishing
     # Note: FRESHENV: if True: we must delete all previous comment references,
     # to avoid an accumulation of references in the database.
-    conf.use_freshenv = False
+    conf.use_freshenv = True
     try:
         app = Sphinx(srcdir=conf.local_repo_physical_dir,
                      confdir=conf.local_repo_physical_dir,
@@ -2552,6 +2561,7 @@ def search_document(request, search_terms='', search_type='AND',
     """
     CONTEXT = 90   # characters around the search term
     if request.method == 'GET':
+        log_file.debug('Received GET search request')
         search = str(search_terms)
         search_type = str(search_type).strip('/').upper()
         if search_type == '':
@@ -2565,6 +2575,7 @@ def search_document(request, search_terms='', search_type='AND',
         # the user can see how the search URL is formed.  Search can be done
         # from the URL: e.g. ``_search/python guido/AND/case=False`` at the end
         # of the URL will search for "python" AND "guido" ignoring case.
+        log_file.debug('Received POST search request.')
         search = request.POST['search_terms']
         search_type = str(request.POST.get('search_type', search_type)).upper()
         with_case = str(request.POST.get('with_case',

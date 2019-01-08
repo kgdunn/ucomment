@@ -1,12 +1,3 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-<head>
-  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <title>{{ html_title }}</title>
-</head>
-
-<body id="ucomment-html-body" class="{{css_body_class}}">
-
 {{ prefix_html|safe }}  <!-- HTML included from conf/settings.py file -->
 
 <!-- All HTML elements contained within this DIV should be embedded within
@@ -15,9 +6,9 @@
 
 	<style type="text/css" media="all"><!--  @import url({{stylesheet_link}}); --></style>
 
-	<div id="ucomment-header"><h1>
+	<!--<div id="ucomment-header"><h1>
 		<a href="{{ root_link.link }}" title="{{ root_link.title|safe }}">{{ root_link.title|safe }}</a></h1>
-	</div><!--#ucomment-header -->
+	</div>--><!--#ucomment-header -->
 
 	<div id="ucomment-navigation-top" class="ucomment-navigation">
 		<div class="ucomment-show-hide-ucomments" style="display: visible;">Hide comments<!--THIS WILL BE REPLACED BY JAVASCRIPT--></div>
@@ -37,11 +28,13 @@
 		<div id="ucomment-content-related">
 
 			<div id="ucomment-search-box-region">
-				<h2>Search entire document</h2>
+			
+				<h2>Search tutorials</h2>
 				<!-- Use POST because there might be non-latin characters in query -->
+			
 				<form method="post" action="/set/from/javascript/settings/" id="ucomment-search-form">
 					{% csrf_token %}
-					<input id="ucomment-search-box" name="search_terms" type="search" placeholder="Search inside the document ..." value="{{search_value}}" />
+					<input id="ucomment-search-box" name="search_terms" type="search" placeholder="Search tutorials ..." value="{{search_value}}" />
 					<input id="ucomment-search-button" type="submit" value="Search"/>
 				</form>
 			</div>
@@ -96,8 +89,8 @@
 						<input type="email" name="email" id="ucomment-id_email" value="" tabindex="2" placeholder="Your email address (optional)"/>
 					</p>
 					<p>
-						<label for="id_updates">Receive <a href="/stay-connected" target="_blank">updates from us</a> (no more than 3 per year)? </label>
-						<input type="checkbox" name="updates" id="ucomment-id_updates" value="get_updates" tabindex="3"/>
+						<!--<label for="id_updates">Receive <a href="/contact-us" target="_blank">updates from us</a> (no more than 3 per year)? </label> -->
+						<input type="hidden" name="updates" id="ucomment-id_updates" value="get_updates" tabindex="3"/>
 					</p>
 					<p>
 						<label for="id_comment">Your comment on the highlighted region:</label> (Please read the <span id="ucomment-help-with-ucomments"><a href="#help-comments">help on commenting</a></span>)
@@ -132,5 +125,3 @@
 
 {{ suffix_html|safe }}  <!-- HTML included from conf/settings.py file -->
 
-</body>
-</html>

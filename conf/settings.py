@@ -212,8 +212,7 @@ equation.
 # The home link is an absolute link.
 
 # Note: this template requires that you use "{{" to obtain "{" in the output.
-html_navigation_template = '''\
-{{% if prev  %}}
+html_navigation_template = '''{{% if prev  %}}
    <a href="{{{{ prev.link }}}}" title="Back to: {{{{ prev.title }}}}"
    accesskey="p">
    <!--<img alt="Back: {{{{ prev.title }}}}" src="{media_url}prev-button.png"/>-->

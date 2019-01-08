@@ -572,10 +572,10 @@ var initialize = function() {
 			img_node.set('id', '');
 			img_node.removeClass(CLASS_NAME);
 			//child_node = img_node.removeChild(img_node.one('span'));
-			parent = node.get('parentNode');
-			parent.set('id', comment_root);
-			parent.addClass(CLASS_NAME);
-			parent.appendChild(child_node);
+			nodeParent = node.get('parentNode');
+			nodeParent.set('id', comment_root);
+			nodeParent.addClass(CLASS_NAME);
+			nodeParent.appendChild(child_node);
 		}
 		else{
 			node.appendChild(child_node);
@@ -610,7 +610,7 @@ var initialize = function() {
 			}
 		}
 		if (first_level_items.size() > 0){
-			parent = first_level_items.item(0).get('parentNode')
+			nodeParent = first_level_items.item(0).get('parentNode')
 			for (var i=0; i<first_level_items.size(); i++){
 				main_item = first_level_items.item(i);
 				ul_children = main_item.one('ul');
@@ -622,7 +622,7 @@ var initialize = function() {
 						if (sub_items.get('children').item(j).one('span')){
 							has_referrer = true;}
 					}
-					main_items = parent.get('children');
+					main_items = nodeParent.get('children');
 					replace = '<li class="ucomment-expander"';
 					if (!has_referrer){replace += 'style="display: none;"'}
 					replace += '><ul>' + sub_items.get('innerHTML') + '</ul>';

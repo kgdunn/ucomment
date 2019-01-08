@@ -2517,10 +2517,10 @@ def format_search_pages_for_web(pages, context, with_case):
                             '&with_case=' + str(with_case), page.html_title))
         if page_counts[page] > 1:
             results[page].append(('<span id="ucomment-search-count">'
-                                '[%d hits]</span>') % page_counts[page])
+                                '[%d times]</span>') % page_counts[page])
         else:
             results[page].append(('<span id="ucomment-search-count">'
-                                '[%d hit]</span>') % page_counts[page])
+                                '[%d time]</span>') % page_counts[page])
         results[page].append('<div id="ucomment-search-result-context">')
         results[page].append('%s</div></li>' % display)
         n_pages += 1
